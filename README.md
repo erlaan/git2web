@@ -22,7 +22,7 @@
   Developing in python gets confusing sometimes when you stumble upon
   a unicode-error, is it because some spooky character was left in your sourcecode
   or what the fuck actually happened?
-xo
+
   **SOLUTION:** 
   Putting `# -*- coding: utf-8 -*-` in the beginning of your `.py`-file
   will make sure that python itself is not confused over what encoding your

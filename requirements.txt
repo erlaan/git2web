@@ -1,3 +1,2 @@
-cffi
 pygit2>=0.23.2
 jinja2>=2.7

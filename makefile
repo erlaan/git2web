@@ -28,9 +28,8 @@ webprepare:
 ## 2. install the requirements
 venvprepare:
 	virtualenv -p /usr/bin/python3 $(VENV)
-	$(VENV)/bin/pip install cffi
+	$(VENV)/bin/pip install cffi # We need to explicitly install cffi first, since pygit2 depends on it
 	$(VENV)/bin/pip install -r requirements.txt
-	chmod u+x $(VENV)/bin/activate
 
 clean:
 	rm -rf $(VENV)
