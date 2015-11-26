@@ -2,6 +2,20 @@
 #+AUTHOR: Jonathan Erlandsson
 
 * git2web
+** Utvecklingen
+*** Libraries
+    Generellt så tar python-modulen pygit2 in en dependency i form utav
+    libgit2, utan libgit2 på systemet kommer `make venvprepare` inte fungera.
+**** Python
+     *Jinja2* kan vi använda för templating
+     jinja docs: http://jinja.pocoo.org/docs/dev/intro/
+     *pygit2* kan vi använda för att vrida & vända på ett git repo
+     pygit2 docs: http://www.pygit2.org/
+
+     :note-jh: jag har användt jinja när jag bloggat med jekyll, vet
+     lite hur det fungerar. pygit2 vet jag inte hur det fungerar, men 
+     det verkar iaf som man har ganska mycket kontrol över saker och ting.
+     
 ** Frågetecken
     Frågor kring Organisation & resurser, dokumentation
 ** Mål
@@ -12,6 +26,8 @@
      HTML: HTML5boilerplate
      JS:   React.js
      Python: Django 
+
+     :note-jh: HTML5boilerplate känns rätt onödigt, jag känner att vi kan skippa den.
 
 *** Statiskt genererade HTML-filer
      Fördel: snabbare än dynamiska sidor
