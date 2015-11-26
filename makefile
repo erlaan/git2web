@@ -27,8 +27,10 @@ webprepare:
 ## 1. create a virtual enviroment
 ## 2. install the requirements
 venvprepare:
-	virtualenv $(VENV)
+	virtualenv -p /usr/bin/python3 $(VENV)
+	$(VENV)/bin/pip install cffi
 	$(VENV)/bin/pip install -r requirements.txt
+	chmod u+x $(VENV)/bin/activate
 
 clean:
 	rm -rf $(VENV)
