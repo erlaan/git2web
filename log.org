@@ -6,6 +6,7 @@
 *** Libraries
     Generellt så tar python-modulen pygit2 in en dependency i form utav
     libgit2, utan libgit2 på systemet kommer `make venvprepare` inte fungera.
+
 **** Python
      *Jinja2* kan vi använda för templating
      jinja docs: http://jinja.pocoo.org/docs/dev/intro/

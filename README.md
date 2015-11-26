@@ -1,12 +1,22 @@
-# Developing:
+# git2web
 
-Start by running `make webprepare` & `make venvprepare` to set up your
-enviroment. These commands will fetch the required or agreed upon
-libraries that this project uses at the moment.
+## About:
 
-# Guidelines:
+### Dependencies:
 
-## UTF-8 all the way!
+  + libgit2
+  + jinja2* 
+  + pygit2*
+
+(can be installed into a virtualenv via `make venvprepare`)
+
+### Developing:
+
+  Start by running `make webprepare` & `make venvprepare` to set up your
+  enviroment. These commands will fetch the required or agreed upon
+  libraries that this project uses at the moment.
+
+### UTF-8 all the way!
   
   **PROBLEM:**
   Developing in python gets confusing sometimes when you stumble upon
