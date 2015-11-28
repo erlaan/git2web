@@ -1,0 +1,19 @@
+<html>
+<!-- Jinja2 prototype for doing stuff with web2git -->
+  <body>
+    <table style="width: 100%;">
+      <tr>
+	<th>Commit ID</th>
+	<th>Commiter</th>
+	<th>Message</th>
+      </tr>
+    {% for commit in tree %}
+    <tr>
+      <td><a href="">{{ commit.oid_new }}</a></td>
+      <td>{{ commit.commiter }}</td>
+      <td>{{ commit.message }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+  </body>
+</html>

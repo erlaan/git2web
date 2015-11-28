@@ -1,26 +1,15 @@
 # -*- coding: utf-8 -*-
+import git2web
+from jinja2 import Environment, PackageLoader
 import sys
 from pygit2 import Repository
 
-def main():
-    # Read in a repository
-    repo = Repository("./")
+env = Environment(loader=PackageLoader("git2web", "html"))
+template = env.get_template('prototype.html')
+# just print the damn thing for now.
 
-    # list the changed files in the most recent commit (HEAD)
-    commit = repo.revparse_single("HEAD")
+repo = Repository("./")
+branch = repo.lookup_branch('master')
+print(template.render(tree=branch.log()))
 
-    # iterate and print every blob in the commit
-    for entry in commit.tree:
-        print(entry.id, entry.type, entry.name)
-    
-    # Everything went as planned
-    return 0
-
-if __name__ == '__main__':
-    sys.exit(main())
-
-
-
-
-
-
+exit(0)

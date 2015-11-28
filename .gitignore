@@ -2,3 +2,4 @@
 html/css/bootstrap.css
 html/js/react.js
 venv
+__pycache__

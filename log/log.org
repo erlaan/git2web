@@ -2,6 +2,23 @@
 #+AUTHOR: Jonathan Erlandsson
 
 * git2web
+** Prototypen
+   Vi kan iterera över en branchs log genom följande kod. repo är ett
+   `pygit2.repository.Repository-object`.
+
+   ```python
+master = repo.lookup_branch('master')
+for logEntry in master.log():
+    print(logEntry.commiter, logEntry.message, logEntry.oid_new, logEntry.oid_old)
+   ```
+   :note-jh: Flowchart för att bygga upp 'kartan' just nu skulle nog kunna
+   fungera på det här viset:
+   Repo -> branches
+   branch -> log # <- detta ger oss lista över en branch's commits
+   branch -> commit # via branch.get_object()
+   commit -> diff # via commit.tree.diff_to_?
+   diff -> stats # via diff.stats.{insertions, files_changed, deletions}
+   diff -> patch # via diff.patch
 ** Utvecklingen
 *** Libraries
     Generellt så tar python-modulen pygit2 in en dependency i form utav
