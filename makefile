@@ -7,8 +7,8 @@ BOOTSTRAPVERSION = bootstrap-3.3.6-dist
 BOOTSTRAPFILE = $(BOOTSTRAPVERSION).zip
 BOOTSTRAPURL = https://github.com/twbs/bootstrap/releases/download/v3.3.6/$(BOOTSTRAPFILE)
 
-REACTJS = react-0.14.3.min.js
-REACTJSURL = https://fb.me/react-0.14.3.min.js
+ANGULARJS = angular.js
+ANGULARJSURL = https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js
 
 ## webprepare follows these steps
 ## 1. Download and extract bootstrap, moving bootstrap.min.css into html/css/
@@ -21,8 +21,8 @@ webprepare:
 	if [ ! -d html/css ]; then mkdir html/css; fi
 	if [ ! -d html/js ]; then mkdir html/js; fi
 	mv $(BOOTSTRAPVERSION)/css/bootstrap.css html/css/
-	curl -OL $(REACTJSURL)
-	mv $(REACTJS) html/js/react.js
+	curl -OL $(ANGULARJSURL)
+	mv $(ANGULARJS) html/js
 	rm $(BOOTSTRAPFILE)
 	rm -r $(BOOTSTRAPVERSION)
 
@@ -36,7 +36,7 @@ venvprepare:
 
 webclean:
 	rm -rf html/css/*
-	rm -rf html/js/*
+	rm -rf html/js/$(ANGULARJS)
 
 venvclean:
 	rm -rf $(VENV)

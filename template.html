@@ -1,55 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="git2web">
   <head>
 
     <link rel="stylesheet" type="text/css" href="html/css/bootstrap.css">
+    <script src="html/js/angular.js"></script>
+    <script src="html/js/prototype.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" >
 
-    <title>{{ repo.name }}</title>
+    <title ng-controller="metadata as md">{{ md.meta.name }}</title>
 
-    <script>
-      $(changePage(page){
-        $("#includedContent").load(page);
-      });
-    </script>
-    
   </head>
   <body>
-    <div class="container-fluid">
+    <div ng-controller="metadata as md" class="container-fluid">
       <div class="row">
 	<nav class="navbar navbar-default">
 	  <!-- This is the headcontainer. -->
 	  <div class="navbar-header">
-	    <a class="navbar-brand" href="#">{{ repo.name }}</a>
+	    <a class="navbar-brand" href="#">{{ md.meta.name }}</a>
 	  </div>
 	  <!-- :TODO: Add a dropdown menu for selecting the different branches -->
 	</nav>
 
 	<!--This is the Left containern. -->
-	<div style="border-right: thick solid #eee;" class="col-xs-12 col-md-6">
-	  <table class="table table-striped">
+	<div class="col-xs-12 col-md-6">
+	  <table ng-controller="repoCtrl as repo" class="table table-striped">
 	    <thead>
-	      <th>
-		Commit
-	      </th>
+	      <th>Message</th>
+	      <th>Commit</th>
+	      <th>Author</th>
 	    </thead>
 	    <tbody>
-	      <tr> <!-- table row -->
-		<td>
-		  <a href="#" onclick="changePage(loren.html)" >Commit</a> 
-		</td>
-	      <tr>
+	      <tr ng-click="repo.show(commit)" ng-repeat="commit in repo.commits">
+		<td><a href="#">{{commit.message}}</a></td>
+		<td>{{commit.commit}}</td>
+		<td>{{commit.author}}</td>
+	      </tr>
 	    </tbody>
 	  </table>
-	  <!-- -->
 	</div>
 
 	<!-- THis is the Right container. -->
-	<div id="includedContent" class="col-xs-12 col-md-6">
-	  <!-- The following markup is for a single commit, 
-	       it should be loaded & displayed as such from json by react.js. -->
+	<div class="col-xs-12 col-md-6">
 	  <header>
 	    <span class="pull-right label label-danger">-11</span> <!-- deletions -->
 	    <span class="pull-right label label-success">+22</span>  <!-- insertions -->
@@ -62,7 +55,7 @@
 	  <!-- A commit's patch would be shown here -->	  
 	  <pre>Here's a bunch of source-code that was changed in the active commit.
 	  </pre>
-	</div> 
+	</div> <!-- /right container -->
 
       </div> <!-- /row -->
     </div>
