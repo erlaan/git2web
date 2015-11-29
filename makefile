@@ -17,8 +17,9 @@ REACTJSURL = https://fb.me/react-0.14.3.min.js
 webprepare:
 	curl -OL $(BOOTSTRAPURL)
 	unzip $(BOOTSTRAPFILE) $(BOOTSTRAPVERSION)/css/bootstrap.css
-	mkdir -p html/css
-	mkdir  html/js
+	if [ ! -d html ]; then mkdir html; fi
+	if [ ! -d html/css ]; then mkdir html/css; fi
+	if [ ! -d html/js ]; then mkdir html/js; fi
 	mv $(BOOTSTRAPVERSION)/css/bootstrap.css html/css/
 	curl -OL $(REACTJSURL)
 	mv $(REACTJS) html/js/react.js
@@ -33,8 +34,9 @@ venvprepare:
 	$(VENV)/bin/pip install cffi # We need to explicitly install cffi first, since pygit2 depends on it
 	$(VENV)/bin/pip install -r requirements.txt
 
-clean:
-	rm -rf $(VENV)
+webclean:
 	rm -rf html/css/*
 	rm -rf html/js/*
 
+venvclean:
+	rm -rf $(VENV)

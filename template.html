@@ -4,10 +4,10 @@
 
     <link rel="stylesheet" type="text/css" href="html/css/bootstrap.css">
 
-    <meta name="viewport" content="width=devic-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" >
 
-    <title> THIS IS TEMPLATE FOR GIT2WEB </title>
+    <title>{{ repo.name }}</title>
 
     <script>
       $(changePage(page){
@@ -18,19 +18,53 @@
   </head>
   <body>
     <div class="container-fluid">
-      <div id="" class="header" >
-	<!-- This is the headcontainer. -->
-      </div>
+      <div class="row">
+	<nav class="navbar navbar-default">
+	  <!-- This is the headcontainer. -->
+	  <div class="navbar-header">
+	    <a class="navbar-brand" href="#">{{ repo.name }}</a>
+	  </div>
+	  <!-- :TODO: Add a dropdown menu for selecting the different branches -->
+	</nav>
 
-      <div id="" class="leftc">
 	<!--This is the Left containern. -->
-	<button onclick="chagePage(loren.html)" >loren </button> 
-      </div>
+	<div style="border-right: thick solid #eee;" class="col-xs-12 col-md-6">
+	  <table class="table table-striped">
+	    <thead>
+	      <th>
+		Commit
+	      </th>
+	    </thead>
+	    <tbody>
+	      <tr> <!-- table row -->
+		<td>
+		  <a href="#" onclick="changePage(loren.html)" >Commit</a> 
+		</td>
+	      <tr>
+	    </tbody>
+	  </table>
+	  <!-- -->
+	</div>
 
-      <div id="includedContent" class="rightc">
 	<!-- THis is the Right container. -->
-      </div> 
+	<div id="includedContent" class="col-xs-12 col-md-6">
+	  <!-- The following markup is for a single commit, 
+	       it should be loaded & displayed as such from json by react.js. -->
+	  <header>
+	    <span class="pull-right label label-danger">-11</span> <!-- deletions -->
+	    <span class="pull-right label label-success">+22</span>  <!-- insertions -->
+	  
+	  <!-- Here's some statistics about the actual patch-->
+	  <h3>{{ commit.message }}</h3> <code class="text-muted">{{ commit.hash }}</code>
+	  </header>
+	  <div class="clearfix"></div>
+	  <hr>
+	  <!-- A commit's patch would be shown here -->	  
+	  <pre>Here's a bunch of source-code that was changed in the active commit.
+	  </pre>
+	</div> 
 
+      </div> <!-- /row -->
     </div>
   </body>
 </html>
