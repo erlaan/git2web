@@ -16,10 +16,12 @@ REACTJSURL = https://fb.me/react-0.14.3.min.js
 ## 3. Clean up by removing the zip-file along with the directory
 webprepare:
 	curl -OL $(BOOTSTRAPURL)
-	unzip $(BOOTSTRAPFILE) $(BOOTSTRAPVERSION)/css/bootstrap.min.css
-	mv $(BOOTSTRAPVERSION)/css/bootstrap.min.css html/css/
+	unzip $(BOOTSTRAPFILE) $(BOOTSTRAPVERSION)/css/bootstrap.css
+	mkdir -p html/css
+	mkdir  html/js
+	mv $(BOOTSTRAPVERSION)/css/bootstrap.css html/css/
 	curl -OL $(REACTJSURL)
-	mv $(REACTJS) html/js
+	mv $(REACTJS) html/js/react.js
 	rm $(BOOTSTRAPFILE)
 	rm -r $(BOOTSTRAPVERSION)
 
