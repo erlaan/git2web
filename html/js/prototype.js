@@ -1,40 +1,106 @@
 var git2web = angular.module('git2web', []);
 
-git2web.controller('metadata', function() {
-    // meta holds metadata on the repository.
-    this.meta = {'name': 'Git2Web'}; // :TODO: replace this with something read from JSON    
-});
-
 git2web.controller('repoCtrl', function() {
+
+    this.projectName = "FIXURCODES :(";
+    this.hash = "";
+    this.commit = null;
+    this.metadata = null;
+
+    // :TODO: replace this with something read from JSON
+    // :TODO-BEFORE: Fix the python-script to actually output some JSON
     // commits holds all the commits
-    //var commits = []; // :TODO: replace this with something read from JSON
-    this.commits = [
-	{
-	    'commit':'66c3d95af0c89833e363780f8255d0da23a6f9b8',
+    //var commits = {};
+    this.commits = {
+	'66c3d95af0c89833e363780f8255d0da23a6f9b8': {
+	    'affectedFiles': [
+		{
+		    'filename': 'AVeryLongFilenameJustToTestHowItLooksLike.c',
+		    'insertions': 234,
+		    'deletions': 20,
+		    'patch': "hello world!"
+		},
+		{
+		    'filename': 'makefile',
+		    'insertions': 134,
+		    'deletions': 10,
+		    'patch': "hello hoe!"
+		},
+		{
+		    'filename': "bitch.h",
+		    'insertions': 222,
+		    'deletions': 999,
+		    'patch': "hello bro!"
+		}
+	    ],
 	    'author': 'jh <jonatanhaltorp@gmail.com>',
-	    'date': 'Sun Nov 29 12:58:02 2015 +0100',
-	    'message': 'updated makefile, sketching template'
+	    'message': 'updated makefile, sketching template',
 	},
-	{
-	    'commit': '580476ae2def594645cd71ee3d98eccf41e0d2b5',
+	'580476ae2def594645cd71ee3d98eccf41e0d2b5': {
+	    'affectedFiles': [
+		{
+		    'filename': 'heyall.c',
+		    'insertions': 234,
+		    'deletions': 20,
+		    'patch': "hello world!"
+		},
+		{
+		    'filename': 'makefile',
+		    'insertions': 134,
+		    'deletions': 10,
+		    'patch': "hello hoe!"
+		},
+		{
+		    'filename': "heyall.h",
+		    'insertions': 222,
+		    'deletions': 999,
+		    'patch': "hello bro!"
+		}
+	    ],
 	    'author': 'Erlaan <firensonic@sandia-gaming.se>',
-	    'date': 'Sun Nov 29 10:40:20 2015 +0100',
-	    'message': 'Did add charset to the template!'
+	    'message': 'Did add charset to the template!',
 	},
-	{
-	    'commit': '9d0eb9c584153e38c76793128d7a1e00fb9e9ce1',
+	'9d0eb9c584153e38c76793128d7a1e00fb9e9ce1': {
+	    'affectedFiles': [
+		{
+		    'filename': 'hoe.c',
+		    'insertions': 234,
+		    'deletions': 20,
+		    'patch': "hello world!"
+		},
+		{
+		    'filename': 'makefile',
+		    'insertions': 134,
+		    'deletions': 10,
+		    'patch': "hello hoe!"
+		},
+		{
+		    'filename': "hoe.h",
+		    'insertions': 222,
+		    'deletions': 999,
+		    'patch': "hello bro!"
+		}
+	    ],
 	    'author': 'Erlaan <firensonic@sandia-gaming.se>',
-	    'date': 'Sun Nov 29 09:30:07 2015 +0100',
 	    'message' : 'The begining of the template.html'
 	}
-    ];    
+    };
 
-    this.show = function(commit) {
-	console.log(commit)
-    }; 
+    this.commitSelected = function() {
+	if (this.hash != "") {
+	    return true;
+	}
+	return false;
+    }
+    
+    this.setCommitMetadata = function(metadata) {
+	this.commitMetadata = metadata;
+    };
+
+    this.displayNewCommit = function(hash) {
+	this.commit = this.commits[hash];
+	this.hash = hash;
+	this.setCommitMetadata(this.commit.affectedFiles);
+    };
 });
-
-
-
-
 
