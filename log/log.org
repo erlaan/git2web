@@ -2,6 +2,7 @@
 #+AUTHOR: Jonathan Erlandsson
 
 * git2web
+
 ** Prototypen
    Vi kan iterera över en branchs log genom följande kod. repo är ett
    `pygit2.repository.Repository-object`.
@@ -39,18 +40,25 @@ for logEntry in master.log():
 ** Frågetecken
     Frågor kring Organisation & resurser, dokumentation
 ** Mål
-*** visualisera brancher & commits i grafer
-*** Använda git för VC
+
+*** visualisera brancher & commits i grafer :TODO:
+    :note-jh: Vi borde kunna göra det ganska enkelt via
+    html5, canvas & grejer. Alternativt kan vi använda
+    ett till 
+    :TODO: gör en HTML5 prototyp för 
+    
+*** Använda git för VC :DONE:
 *** Programmera i HTML, Javascript, CSS & Python
      CSS:  Bootstrap
-     HTML: HTML5boilerplate
-     JS:   React.js
-     Python: Django 
+     JS:   Anuglar.js
+     Python: git2web, json 
 
-     :note-jh: HTML5boilerplate känns rätt onödigt, jag känner att vi kan skippa den.
-
-*** Statiskt genererade HTML-filer
+*** Output :TODO:
+**** JSON :TODO:
+**** Markdown :OPTIONAL:
+**** Statisk html :TODO:
      Fördel: snabbare än dynamiska sidor
      Specifikt Mål: Möjlighet att lägga in en hook då man commitar.
          
-*** Visa olika tips kring hur man kan använda git
+*** Visa olika tips kring hur man kan använda git :TODO: 
+    :note-jh: Behöver specifieras mer.

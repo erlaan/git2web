@@ -1,15 +1,50 @@
-# -*- coding: utf-8 -*-
-import git2web
+# -*- coding: utf-8 -*- 
+from pygit2 import Repository, GIT_SORT_TOPOLOGICAL
 from jinja2 import Environment, PackageLoader
-import sys
-from pygit2 import Repository
 
-env = Environment(loader=PackageLoader("git2web", "html"))
-template = env.get_template('prototype.html')
-# just print the damn thing for now.
+import json, sys
 
-repo = Repository("./")
-branch = repo.lookup_branch('master')
-print(template.render(tree=branch.log()))
+class Markup:
+    """Set the loaded branch by specifying the branch when 
+creating the object. I don't actually know I'm too sick to write
+decent documentation."""
 
-exit(0)
+    def __init__(self):
+        pass
+
+def main():
+    # repos = {
+    #     'name' : pygit2.repository.Repository
+    # }
+    repos = {}
+    # branches = {
+    #     'name' : [ pygit2... ]
+    # }
+    branches = {}
+    # commits = {
+    #     
+    # }
+    
+    # start by reading the config.json in the current directory
+    with open(configFilename, 'r') as conf:
+        config = json.load(conf)
+
+    # check if there are no repos defined
+    for r in config['repos']:
+        repos.update(
+            {r['name'] : Repository(r['path'])}
+        )    
+
+    if config['output'] == 'json':
+        pass
+
+    if config['output'] == 'html':
+        # Warning: this shit is not functional! :(
+        # :TODO: find a way to setup jinja2 without the use of a module.
+        env = Environment(loader=PackageLoader("git2web", "html"))
+        template = env.get_template('prototype.html')
+        
+    return 0
+
+if __name__ == '__main__':
+    sys.exit(main())
