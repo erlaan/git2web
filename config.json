@@ -1,12 +1,13 @@
-"config" = {
-    "repos" = [
+{
+
+    "markup" : "json",
+    "hook" : false,
+    "outputPath": "_markup/",
+    "repos" : [
 	{
-	    "path": "/home/jh/git2web"
-	    "name": "git2web"
-	},
-	{
-	    "path": "/home/jh/MEGA/jonatanhal.github.io"
-	    "name": "This is my blog"
+	    "path": "path/to/your/git-project",
+	    "name": "ididntedittheconfig"
 	}
     ]
 }
+
