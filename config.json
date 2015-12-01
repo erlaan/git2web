@@ -1,0 +1,12 @@
+"config" = {
+    "repos" = [
+	{
+	    "path": "/home/jh/git2web"
+	    "name": "git2web"
+	},
+	{
+	    "path": "/home/jh/MEGA/jonatanhal.github.io"
+	    "name": "This is my blog"
+	}
+    ]
+}
