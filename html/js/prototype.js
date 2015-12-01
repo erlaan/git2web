@@ -6,7 +6,7 @@ git2web.controller('repoCtrl', function() {
     this.hash = "";
     this.commit = null;
     this.metadata = null;
-
+    this.repository = "";
     // :TODO: replace this with something read from JSON
     // :TODO-BEFORE: Fix the python-script to actually output some JSON
     // commits holds all the commits
@@ -86,8 +86,8 @@ git2web.controller('repoCtrl', function() {
 	}
     };
 
-    this.commitSelected = function() {
-	if (this.hash != "") {
+    this.selected = function(parameter) {
+	if (parameter != "") {
 	    return true;
 	}
 	return false;
