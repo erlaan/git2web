@@ -4,8 +4,8 @@
     "outputPath": "_markup/",
     "repos" : [
 	{
-	    "path": "path/to/your/git-project",
-	    "name": "ididntedittheconfig"
+	    "path": "./",
+	    "name": "git2web"
 	}
     ]
 }
