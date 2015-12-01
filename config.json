@@ -1,7 +1,6 @@
 {
 
     "markup" : "json",
-    "hook" : false,
     "outputPath": "_markup/",
     "repos" : [
 	{
