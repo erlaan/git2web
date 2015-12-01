@@ -2,7 +2,7 @@ var git2web = angular.module('git2web', []);
 
 git2web.controller('repoCtrl', function() {
 
-    this.projectName = "FIXURCODES :(";
+    this.projectName = "git2web";
     this.hash = "";
     this.commit = null;
     this.metadata = null;
