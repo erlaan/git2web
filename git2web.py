@@ -16,13 +16,13 @@ Coming in, the repos variable is defined as follows:
     def __init__(self, repos):
         # set some initial values
         self.json = {}
-    
-        for name, repo in repos:
+
+        for name, repo in repos.items():
             self.parse(name, repo)
 
-    def parse(name, repo):
+    def parse(self, name, repo):
         # do not parse empty repos
-        if repo.is_empty():
+        if repo.is_empty:
             return
 
         # set the repo-name as a key to an empty dictionary.
@@ -35,40 +35,62 @@ Coming in, the repos variable is defined as follows:
             )
 
             br = repo.lookup_branch(branch)
-            commits = [commit for commit in br.log()]
+            referenceLog = [reference for reference in br.log()]
             
             # Watch out for bug-hell right about now
             # good luck debugging this spaghetti code.
             # I listened to this song while coding this shit:
             # https://www.youtube.com/watch?v=SW-BU6keEUw
-            for commit in commits:
-                # reference the commit by oid
-                oid = commit.oid_new
+            for reference in referenceLog:
+                oid = str(reference.oid_new)
+                commit = repo.revparse_single(oid)
+                parents = [str(parent.oid) for parent in commit.parents]
                 self.json[name][branch].update(
                     { oid : {
-                        'affected': [{
-                            'filename' : en.name,
-                            'insertions' : en.tree.diff_to_tree().stats.insertions,
-                            'deletions' : en.tree.diff_to_tree().stats.deletions,
-                            'patch': en.tree.diff_to_tree().patch # this could be improved* 
-                        } for en in repo.revparse_single(oid)],
-                        'parent'  : commit.oid_old,
-                        'author'  : commit.commiter,
+                        'affected': [],
+                        'time'    : commit.commit_time, # unix time-format?
+                        'parents' : parents,
+                        'author'  : commit.committer.name,
                         'message' : commit.message
                     }
                     }
                 )
-                
-                self.json[name][branch][oid]
+
+                for twig in commit.tree:
+                    self.json[name][branch][oid]['affected'].append({
+                        'hex' : twig.hex,
+                        'filename' : twig.name
+                        # :STRETCH: Individual patches per file, Version 1.1?
+                        #  Make it so that a file can have an individual
+                        #  patch assigned with it. This was not included
+                        #  as a defined goal within the scope of our project;
+                })
 
     # * commit.tree.diff_to_tree().patch displays
     # an included command, along with pure diff syntax,
     # which is good in its own way (we can use pygments
     # for syntax highlighting; but the leading command
     # (diff --git ...) would be garbage text.
+    # 
+    # ** raises an TypeError exception, '_pygit2.commit' object is not iterable.
+    # What i want the code to do:
+    #  iterate over every changed file in the commit & create some structures based
+    # on that data; IS THAT SO FRICKIN HARD?!?!? /(; c_ ; /)
+    # :TODO: find the right object to iterate over.
+    #
+    # *** WOULD contain these pieces of information, but who the fuck coded this
+    # piece of shit library??! Why is there so much complexity?!! I can fetch the
+    # binary diff of a moth's fart from nineteen years ago but not get number
+    # of inserted/deleted lines? W T F
+    # I do not claim to know any and all insides of pygit2 or git.
+    # So my thoughts come from lack of understanding, because there should
+    # be a way to do it.
+    
+
                 
 def main():
     repos, config = {}, {}
+    markup = ""
 
     # read the config
     with open('config.json', 'r') as conf:
@@ -82,15 +104,19 @@ def main():
             print('Unable to open repository {} in config. Wrong path?'.format(r['name']))
             return 1
 
-    # generate our model-objects here
-
+    # generate our model-objects here    
     if config['markup'] == 'html':
         # do stuff with jinja2 here
         pass
 
     if config['markup'] == 'json':
-        # do stuff with json here
-        pass
+        parser = git2json(repos)
+        markup = json.dumps(parser.json)
+        print(markup)
+        print(len(markup))
+        
+    # :TODO: copy generated markup, along with any template-files to
+    # the config['output']
 
     # smooth sailing, everything is fine!
     return 0
