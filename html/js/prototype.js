@@ -15,11 +15,17 @@ git2web.controller('repoCtrl', function() {
 
 	var commits = [];
 
-	$.getJSON(../../config.json,grabJSON(data)){
-	    
-	    $.each(data.repos,grabJSON(i,repo){
+	$.getJSON(../../exampleData.json,grabJSON(data)){    
+	    $.each(data,grabJSON(i,repo){
 
-		repository = repo.name
+		repository = repo.repository;
+		commits = repo.repository.branch;
+		$.getJSONConfig(../../config.json,grabJson(config)){
+		    $.each(config,grabJSONConfig(i,config))
+			projectName=config.repos.name;
+		}
+
+		
 
 	    }
 	    
@@ -28,7 +34,7 @@ git2web.controller('repoCtrl', function() {
 
    /* this.commits = {
 	'66c3d95af0c89833e363780f8255d0da23a6f9b8': {
-	    'affectedFiles': [
+	    'afectedFiles': [
 		{
 		    'filename': 'AVeryLongFilenameJustToTestHowItLooksLike.c',
 		    'insertions': 234,
