@@ -20,6 +20,8 @@ for logEntry in master.log():
    commit -> diff # via commit.tree.diff_to_?
    diff -> stats # via diff.stats.{insertions, files_changed, deletions}
    diff -> patch # via diff.patch
+   
+
 ** Utvecklingen
 *** Libraries
     Generellt så tar python-modulen pygit2 in en dependency i form utav
