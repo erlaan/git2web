@@ -10,8 +10,23 @@ git2web.controller('repoCtrl', function() {
     // :TODO: replace this with something read from JSON
     // :TODO-BEFORE: Fix the python-script to actually output some JSON
     // commits holds all the commits
-    //var commits = {};
-    this.commits = {
+
+    $grabJSON() {
+
+	var commits = [];
+
+	$.getJSON(../../config.json,grabJSON(data)){
+	    
+	    $.each(data.repos,grabJSON(i,repo){
+
+		repository = repo.name
+
+	    }
+	    
+	}
+    }
+
+   /* this.commits = {
 	'66c3d95af0c89833e363780f8255d0da23a6f9b8': {
 	    'affectedFiles': [
 		{
@@ -84,7 +99,7 @@ git2web.controller('repoCtrl', function() {
 	    'author': 'Erlaan <firensonic@sandia-gaming.se>',
 	    'message' : 'The begining of the template.html'
 	}
-    };
+    };*/
 
     this.selected = function(parameter) {
 	if (parameter != "") {
