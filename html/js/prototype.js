@@ -21,8 +21,8 @@ git2web.controller('repoCtrl', function() {
 		repository = repo.repository;
 		hash = repo.repository.branch;
 		$.getJSONConfig('../../config.json',function(config){
-		    $.each(config,function(i,config){
-			projectName=config.repos.name;
+		    $.each(config,function(i,cfg){
+			projectName=cfg.repos.name;
 		    });
 		});
 
