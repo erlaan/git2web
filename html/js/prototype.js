@@ -11,26 +11,27 @@ git2web.controller('repoCtrl', function() {
     // :TODO-BEFORE: Fix the python-script to actually output some JSON
     // commits holds all the commits
 
-    $grabJSON() {
+    $(function() {
 
 	var commits = [];
 
-	$.getJSON(../../exampleData.json,grabJSON(data)){    
-	    $.each(data,grabJSON(i,repo){
+	$.getJSON('../../exampleData.json',function(data){    
+	    $.each(data, function(i,repo){
 
 		repository = repo.repository;
-		commits = repo.repository.branch;
-		$.getJSONConfig(../../config.json,grabJson(config)){
-		    $.each(config,grabJSONConfig(i,config))
+		hash = repo.repository.branch;
+		$.getJSONConfig('../../config.json',function(config){
+		    $.each(config,function(i,config){
 			projectName=config.repos.name;
-		}
+		    });
+		});
 
-		
-
-	    }
+	    });
 	    
-	}
-    }
+	});
+    });
+	
+
 
    /* this.commits = {
 	'66c3d95af0c89833e363780f8255d0da23a6f9b8': {
