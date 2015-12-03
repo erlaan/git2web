@@ -1,6 +1,6 @@
 var git2web = angular.module('git2web', []);
 
-git2web.controller('repoCtrl', function() {
+git2web.controller('repoCtrl', function($http) {
 
     this.projectName = "git2web";
     this.hash = "";
@@ -10,26 +10,16 @@ git2web.controller('repoCtrl', function() {
     // :TODO: replace this with something read from JSON
     // :TODO-BEFORE: Fix the python-script to actually output some JSON
     // commits holds all the commits
-
- /*   $(function() {
 	
-	this.commits = {};
 
-	$.getJSON('../../exampleData.json',function(data){    
-	    $.each(data, function(i,commits){
-		this.commits = commits;
-		$.getJSONConfig('../../config.json',function(config){
-		    $.each(config,function(i,cfg){
-			projectName = cfg.repos.name;
-		    });
-		});
+    // this.dickhead = "";oo
 
-	    });
-	    
-	});
-	
-    });*/
-	
+      $http.get('../../config.json')
+       .success(function(res){
+          this.dickhead = res.repos;                
+        });
+
+    console.log(this.dickhead);
 
 
     this.commits = {
