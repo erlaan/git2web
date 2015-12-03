@@ -11,29 +11,28 @@ git2web.controller('repoCtrl', function() {
     // :TODO-BEFORE: Fix the python-script to actually output some JSON
     // commits holds all the commits
 
-    $(function() {
-
-	var commits = [];
+ /*   $(function() {
+	
+	this.commits = {};
 
 	$.getJSON('../../exampleData.json',function(data){    
-	    $.each(data, function(i,repo){
-
-		repository = repo.repository;
-		hash = repo.repository.branch;
+	    $.each(data, function(i,commits){
+		this.commits = commits;
 		$.getJSONConfig('../../config.json',function(config){
 		    $.each(config,function(i,cfg){
-			projectName=cfg.repos.name;
+			projectName = cfg.repos.name;
 		    });
 		});
 
 	    });
 	    
 	});
-    });
+	
+    });*/
 	
 
 
-   /* this.commits = {
+    this.commits = {
 	'66c3d95af0c89833e363780f8255d0da23a6f9b8': {
 	    'afectedFiles': [
 		{
@@ -106,7 +105,7 @@ git2web.controller('repoCtrl', function() {
 	    'author': 'Erlaan <firensonic@sandia-gaming.se>',
 	    'message' : 'The begining of the template.html'
 	}
-    };*/
+    };
 
     this.selected = function(parameter) {
 	if (parameter != "") {
