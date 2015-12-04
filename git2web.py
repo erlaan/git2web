@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import sys, json
+import sys, json, os
 
 from jinja2 import Template
 from pygit2 import Repository
@@ -112,8 +112,12 @@ def main():
     if config['markup'] == 'json':
         parser = git2json(repos)
         markup = json.dumps(parser.json)
-        print(markup)
-        print(len(markup))
+        path   = os.path.join(config['outputPath'], 'data.json')
+        if not os.path.exists(config['outputPath']):
+            os.mkdir(config['outputPath'])
+        with open(path, 'w') as fh:
+            fh.write(markup)
+        print("[i] wrote markup into", path)
         
     # :TODO: copy generated markup, along with any template-files to
     # the config['output']
