@@ -1,12 +1,10 @@
 {
-
-    "markup" : "json",
-    "outputPath": "_markup/",
-    "repos" : [
+    "markup" :  "json",
+    "outputPath" : "_markup/", 
+    "repos" : 
 	{
 	    "path": "./",
 	    "name": "git2web"
 	}
-    ]
+    
 }
-
