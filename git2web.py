@@ -75,9 +75,7 @@ def main():
         except KeyError:
             print('Unable to open repository {} in config. Wrong path?'.format(r['name']))
             return 1
-
-
-
+        
     # generate our model-objects here    
     if config['markup'] == 'html':
         try:
@@ -89,14 +87,14 @@ def main():
         template = env.get_template(config['jinjaTemplate'])        
         markup = Parser(repos)
         output = template.render(repos=markup.markup)
-        path = join(config['outputPath'], 'data.json')
+        path = join(config['outputPath'], 'index.html')
         
         # :TODO: call template.render() and save that shit
 
     if config['markup'] == 'json':
         markup = Parser(repos)
         output = json.dumps(markup.markup)
-        path = join(cofig['outputPath'], "index.html")
+        path = join(config['outputPath'], "data.json")
         
     if not exists(config['outputPath']):
         os.mkdir(config['outputPath'])
