@@ -6,7 +6,7 @@ from jinja2 import Environment, FileSystemLoader, TemplateNotFound
 from pygit2 import Repository
 
 
-class git2dict:
+class Parser:
     def __init__(self, repos):
         # set some initial values
         self.markup = {}
@@ -59,19 +59,7 @@ class git2dict:
                         #  patch assigned with it. This was not included
                         #  as a defined goal within the scope of our project;
                 })
-    
-class git2html:
-    def __init__(self, repos, template):
-        self.template = template
-        self.markup = ""
-
-        for name, repo in repos.items():
-            self.parse(name, repo)
-
-    def parse(self, name, repo):
-        if repo.is_empty:
-            return
-                
+                    
 def main():
     repos, config = {}, {}
     markup = ""
@@ -88,31 +76,32 @@ def main():
             print('Unable to open repository {} in config. Wrong path?'.format(r['name']))
             return 1
 
+
+
     # generate our model-objects here    
     if config['markup'] == 'html':
         try:
             env = Environment(loader=FileSystemLoader(config['templatesDirectory']))
         except KeyError:
-            print("You're paddling up the dumb-dumb river.")
-            print("Please define in config.json where we can find your jinja2 template-file.")
+            print("Please define 'templateDirectory' to where you keep your template in config.json.")
             return 1
         # puh error checking done, lets get dirty
         template = env.get_template(config['jinjaTemplate'])        
-        parser = git2dict(repos)
-        markup = template.render(repos=parser.markup)
+        markup = Parser(repos)
+        output = template.render(repos=markup.markup)
+        path = join(config['outputPath'], 'data.json')
         
         # :TODO: call template.render() and save that shit
 
     if config['markup'] == 'json':
-        parser = git2dict(repos)
-        markup = json.dumps(parser.markup)
-        path   = join(config['outputPath'], 'data.json')
+        markup = Parser(repos)
+        output = json.dumps(markup.markup)
+        path = join(cofig['outputPath'], "index.html")
         
-
     if not exists(config['outputPath']):
         os.mkdir(config['outputPath'])
     with open(path, 'w') as fh:
-        fh.write(markup)
+        fh.write(output)
     print("[i] wrote markup into", path)
 
     # smooth sailing, everything is fine!

@@ -4,14 +4,6 @@ from jinja2 import Environment, PackageLoader
 
 import json, sys
 
-class Markup:
-    """Set the loaded branch by specifying the branch when 
-creating the object. I don't actually know I'm too sick to write
-decent documentation."""
-
-    def __init__(self):
-        pass
-
 def main():
     # repos = {
     #     'name' : pygit2.repository.Repository
