@@ -1,10 +1,8 @@
 {
-    "markup" :  "json",
+    "markup": "html",
+    "templatesDirectory" :  "./html",
     "outputPath" : "_markup/", 
-    "repos" : 
-	{
-	    "path": "./",
-	    "name": "git2web"
-	}
-    
+    "jinjaTemplate" : "html/jinja2Template.html",
+    "repos" : [ { "path": "./",
+		  "name": "git2web" }]
 }

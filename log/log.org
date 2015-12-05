@@ -3,6 +3,17 @@
 
 * git2web
 
+** irc quotes
+   <sandia> jonatanhal: varför vill den inte skriva ut texter... Slnger snart ut
+   alla mina datorer och telefon från fönstret och går ut i bilen och
+   kör över dom inte 1 gång utan 3 gånger och sen åker jag till affären
+   och köper en ben and jerry och sen kör jag över datorerna igen
+   ...
+   <sandia> Jag kan göra grafer då slipper jag hålla på med javascripts jävla
+   skti variablar. Så får jag gå till ett vettigt språk men jag ska dra
+   till affären för det fanns ingen mat här inte ens frukost. och de
+   säger inget itll mig..
+   <@jonatanhal> det går bra för dig nu erland
 ** Prototypen
    Vi kan iterera över en branchs log genom följande kod. repo är ett
    `pygit2.repository.Repository-object`.
@@ -21,7 +32,6 @@ for logEntry in master.log():
    diff -> stats # via diff.stats.{insertions, files_changed, deletions}
    diff -> patch # via diff.patch
    
-
 ** Utvecklingen
 *** Libraries
     Generellt så tar python-modulen pygit2 in en dependency i form utav

@@ -1,21 +1,15 @@
 # -*- coding: utf-8 -*-
 import sys, json, os
 
-from jinja2 import Template
+from os.path import join, exists, getmtime
+from jinja2 import Environment, FileSystemLoader, TemplateNotFound
 from pygit2 import Repository
 
-class git2html:
-    pass
 
-class git2json:
-    """
-Coming in, the repos variable is defined as follows:
-{'repositoryName' : pygit2.repository.Repository-object}
-    """
-        
+class git2dict:
     def __init__(self, repos):
         # set some initial values
-        self.json = {}
+        self.markup = {}
 
         for name, repo in repos.items():
             self.parse(name, repo)
@@ -26,11 +20,11 @@ Coming in, the repos variable is defined as follows:
             return
 
         # set the repo-name as a key to an empty dictionary.
-        self.json.update({name : {}})
+        self.markup.update({name : {}})
 
         # iterate over each branch
         for branch in repo.listall_branches():
-            self.json[name].update(
+            self.markup[name].update(
                 { branch : {}}
             )
 
@@ -45,7 +39,7 @@ Coming in, the repos variable is defined as follows:
                 oid = str(reference.oid_new)
                 commit = repo.revparse_single(oid)
                 parents = [str(parent.oid) for parent in commit.parents]
-                self.json[name][branch].update(
+                self.markup[name][branch].update(
                     { oid : {
                         'affected': [],
                         'time'    : commit.commit_time, # unix time-format?
@@ -57,7 +51,7 @@ Coming in, the repos variable is defined as follows:
                 )
 
                 for twig in commit.tree:
-                    self.json[name][branch][oid]['affected'].append({
+                    self.markup[name][branch][oid]['affected'].append({
                         'hex' : twig.hex,
                         'filename' : twig.name
                         # :STRETCH: Individual patches per file, Version 1.1?
@@ -65,28 +59,18 @@ Coming in, the repos variable is defined as follows:
                         #  patch assigned with it. This was not included
                         #  as a defined goal within the scope of our project;
                 })
-
-    # * commit.tree.diff_to_tree().patch displays
-    # an included command, along with pure diff syntax,
-    # which is good in its own way (we can use pygments
-    # for syntax highlighting; but the leading command
-    # (diff --git ...) would be garbage text.
-    # 
-    # ** raises an TypeError exception, '_pygit2.commit' object is not iterable.
-    # What i want the code to do:
-    #  iterate over every changed file in the commit & create some structures based
-    # on that data; IS THAT SO FRICKIN HARD?!?!? /(; c_ ; /)
-    # :TODO: find the right object to iterate over.
-    #
-    # *** WOULD contain these pieces of information, but who the fuck coded this
-    # piece of shit library??! Why is there so much complexity?!! I can fetch the
-    # binary diff of a moth's fart from nineteen years ago but not get number
-    # of inserted/deleted lines? W T F
-    # I do not claim to know any and all insides of pygit2 or git.
-    # So my thoughts come from lack of understanding, because there should
-    # be a way to do it.
     
+class git2html:
+    def __init__(self, repos, template):
+        self.template = template
+        self.markup = ""
 
+        for name, repo in repos.items():
+            self.parse(name, repo)
+
+    def parse(self, name, repo):
+        if repo.is_empty:
+            return
                 
 def main():
     repos, config = {}, {}
@@ -106,21 +90,30 @@ def main():
 
     # generate our model-objects here    
     if config['markup'] == 'html':
-        # do stuff with jinja2 here
-        pass
+        try:
+            env = Environment(loader=FileSystemLoader(config['templatesDirectory']))
+        except KeyError:
+            print("You're paddling up the dumb-dumb river.")
+            print("Please define in config.json where we can find your jinja2 template-file.")
+            return 1
+        # puh error checking done, lets get dirty
+        template = env.get_template(config['jinjaTemplate'])        
+        parser = git2dict(repos)
+        markup = template.render(repos=parser.markup)
+        
+        # :TODO: call template.render() and save that shit
 
     if config['markup'] == 'json':
-        parser = git2json(repos)
-        markup = json.dumps(parser.json)
-        path   = os.path.join(config['outputPath'], 'data.json')
-        if not os.path.exists(config['outputPath']):
-            os.mkdir(config['outputPath'])
-        with open(path, 'w') as fh:
-            fh.write(markup)
-        print("[i] wrote markup into", path)
+        parser = git2dict(repos)
+        markup = json.dumps(parser.markup)
+        path   = join(config['outputPath'], 'data.json')
         
-    # :TODO: copy generated markup, along with any template-files to
-    # the config['output']
+
+    if not exists(config['outputPath']):
+        os.mkdir(config['outputPath'])
+    with open(path, 'w') as fh:
+        fh.write(markup)
+    print("[i] wrote markup into", path)
 
     # smooth sailing, everything is fine!
     return 0
@@ -128,9 +121,3 @@ def main():
 # launch the program at start
 if __name__ == '__main__':
     sys.exit(main())
-        
-
-        
-        
-                         
-

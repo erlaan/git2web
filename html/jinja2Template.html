@@ -1,19 +1,62 @@
+<!DOCTYPE html>
 <html>
-<!-- Jinja2 prototype for doing stuff with web2git -->
+  <head>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/custom.css">
+    <script src="js/angular.js"></script>
+    <script src="js/prototype.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" >
+  </head>  
   <body>
-    <table style="width: 100%;">
-      <tr>
-	<th>Commit ID</th>
-	<th>Commiter</th>
-	<th>Message</th>
-      </tr>
-    {% for commit in tree %}
-    <tr>
-      <td><a href="">{{ commit.oid_new }}</a></td>
-      <td>{{ commit.commiter }}</td>
-      <td>{{ commit.message }}</td>
-    </tr>
-    {% endfor %}
-    </table>
+    <div class="container">
+      {% for repo in repos %}
+      <div class="row"> <!-- loop here for each repo -->
+
+	<nav class="navbar navbar-default">
+	  <div class="navbar-header">
+	    <a class="navbar-brand" href="#">{{ repo.name }}</a>
+	  </div>
+	  <!-- :TODO: Add a dropdown menu for selecting the different branches -->
+	</nav>
+	<!--This is the Left containern. -->
+	{% for branch in repo.branches %}
+	<h2 class="page-header">{{ branch.name }}</h2>
+	{% for commit in branch.commit %}
+	<table class="table table-striped">
+	  <thead>
+	    <th>Message</th>
+	    <th>Commit</th>
+	    <th>Author</th>
+	  </thead>
+	  <tbody>
+	    <tr> <!-- loop over this, add a href=#id to focus on the relevant commits ID -->
+	      <div>
+		<td><a href="#{{hash}}">{{commit.message}}</a></td>
+		<td><code>{{commit.hash}}</code></td>
+		<td>{{commit.author}}</td>
+	      </div>
+	    </tr>
+	  </tbody>
+	  <hr>
+	  <!-- :TODO: Add a header here for the commit, with overall data like
+	       total amount of lines deleted or inserted, parent commit
+	       commit id, commit message, author & date??! -->
+	  <!-- This is the commit metadata container -->
+	  <div class="diff"> <!-- loop here -->
+	    <dl class="dl-horizontal">
+	      <dt><code>{{ meta.filename }}</code></dt>
+	      <dt><code>{{ meta.hash }}</code></dt>
+	    </dl>
+	    <div class="clearfix"></div>
+	    <pre>{{ meta.patch }}</pre>
+	    <hr>
+	  </div>
+	</table>
+	{% endfor %}
+	{% endfor %}
+      </div> <!-- /row -->
+      {% endfor %}
+    </div>
   </body>
 </html>
