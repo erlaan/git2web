@@ -101,7 +101,7 @@ def main():
         # on firefox when loading it as text/javascript. Is this present
         # on other JSON files aswell??
         markup = git2web(repos)
-        output = json.dumps("data: {markup}".format(markup=markup.markup))
+        output = json.dumps(markup.markup)
         path = join(config['outputPath'], "data.json")
         
     if not exists(config['outputPath']):

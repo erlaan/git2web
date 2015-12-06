@@ -1,27 +1,21 @@
 var git2web = angular.module('git2web', []);
 
-git2web.controller('repoCtrl', function($scope, $http) {
-
-    this.projectName = "git2web";
+git2web.controller('repoController', ['$scope', '$http', function($scope, $http) {
     this.hash = "";
     this.commit = null;
     this.metadata = null;
-    this.branch = "";
+    this.branch = "master";
     this.repository = "";
-
-    $http.get('/config.json').success(function(res) {
-	setTimeout(function() {
-	    $scope.config = res;
-	}, 500);
-    });
+   
+    this.init = function() {
+	$http.get('/config.json').then(function(data) {
+	    $scope.config = angular.fromJson(data.data);
+	}, null)
+	$http.get('/data.json').then(function(data) {
+	    $scope.data = angular.fromJson(data.data);
+	}, null)
+    };
 	
-
-    $http.get('/data.json').success(function(res) {
-	setTimeout(function(){
-	    $scope.jsondata = res;
-	}, 500);
-    });
-
     // helperfunction for checking if a branch is selected
     this.selectedBranch = function(parameter) {
 	if (parameter == this.branch) {
@@ -37,6 +31,13 @@ git2web.controller('repoCtrl', function($scope, $http) {
 	return false;
     };
 
+    this.selectedCommit = function(paramter) {
+	if (parameter == this.commit) {
+	    return true;
+	}
+	return false
+    }
+
     this.displayNewRepo = function(repo) {
 	this.repository = repo;
 	// default to show the master-branch of a repository.
@@ -48,10 +49,5 @@ git2web.controller('repoCtrl', function($scope, $http) {
 	this.hash = hash;
 	this.commitMetadata = this.commit.affectedFiles;
     };
-
-    this.log = function(obj) {
-	console.log(obj);
-    };
-    
-});
+}]);
 

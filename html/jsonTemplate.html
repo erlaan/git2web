@@ -1,74 +1,31 @@
 <!DOCTYPE html>
 <html ng-app="git2web">
   <head>
-
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/custom.css">
     <script src="js/angular.js"></script>
-    <script src="js/prototype.js"></script>
-
+    <script src="js/git2web.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" >
-
     <title>Git2Web</title>
   </head>
-  <body>
-    <div ng-controller="repoCtrl as repos" class="container-fluid">
-      <!-- This is the headcontainer. -->
+  <body ng-controller="repoController as repos">
+    <div ng-init="repos.init()" class="container-liquid"> <!-- root div -->
+      <noscript><pre class="lead text-center">Don't you trust us? :)</pre></noscript>
       <nav class="navbar navbar-default">
 	<div class="navbar-header">
 	  <a class="navbar-brand">Git2Web</a>
 	</div>
-	<!-- :TODO: Add a dropdown menu for selecting the different branches -->
+	<!-- :TODO: drop down menu for selecting repo / branch -->
       </nav>
-      <!--This is the Left containern. -->
-      <div class="col-xs-12 col-md-6">
-	<div ng-repeat="repo in repos.jsondata" class="row"> <!-- iterating div -->	  
-	  <table class="table"> <!-- repo table -->
-	    <h1 class="page-header"><a href="#" ng-click="repos.displayNewRepo(repo)">{{ repo }}</a></h1>
-	    <tr ng-click="repos.branch=branch" ng-repeat="branch in repo">
-	      <h3>{{ branch }}</h3>
-	      <table ng-show="repos.branchSelected(branch)" class="table table-striped">
-		<thead>
-		  <th>Message</th>
-		  <th>Commit</th>
-		  <th>Author</th>
-		</thead>
-		<tbody>
-		  <tr ng-click="repos.displayNewCommit(hash)" ng-repeat="(hash, commit) in branch">
-		    <div>
-		      <td>{{commit.message}}</td>
-		      <td><code>{{hash}}</code></td>
-		      <td>{{commit.author}}</td>
-		    </div>
-		  </tr>
-		</tbody>
-	      </table> <!-- commit table -->
-	    </tr>
-	  </table> <!-- repo table -->
-	</div> <!-- iterating div -->
-      </div>
-
-      <!-- THis is the Right container. -->
-      <div  class="col-xs-12 col-md-6"> <!-- ng-show="repo.selected(repo.hash)" -->
-	<!-- :TODO: Add a header here for the commit, with overall data like
-	     total amount of lines deleted or inserted, parent commit
-	     commit id, commit message, author & date??! -->
-	<!-- This is the commit metadata container -->
-	<div ng-repeat="meta in repo.commitMetadata" class="diff">
-	  <dl class="dl-horizontal">
-	    <dt><code>{{ meta.filename }}</code></dt>
-	    <dd>
-	      <span class="label label-danger">{{ "-" + meta.deletions }}</span>
-	      <span class="label label-success">{{ "+" +  meta.insertions }}</span>
-	    </dd>
-	  </dl>
-	  <div class="clearfix"></div>
-	  <pre>{{ meta.patch }}</pre>
-	  <hr>
+      <div class="left col-xs-12 col-md-6"> <!-- left -->
+	<div ng-repeat="(repo, meta) in data" class="row">
+	  <h1 class="page-header">{{ repo }}</h1>
 	</div>
-      </div> <!-- /right container -->
+      </div> <!-- left -->
 
-    </div> <!-- /row -->
+
+    </div> <!-- root div -->
+
 </body>
 </html>
