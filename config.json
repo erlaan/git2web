@@ -1,5 +1,5 @@
 {
-    "markup": "html",
+    "markup": "json",
     "templatesDirectory" :  "html",
     "jinjaTemplate" : "jinja2Template.html",
     "outputPath" : "_markup/", 

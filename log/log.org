@@ -2,7 +2,58 @@
 #+AUTHOR: Jonathan Erlandsson
 
 * git2web
+** Varför fungerar inte det här?
+~~~
+    <div ng-controller="repoCtrl as repos" class="container-fluid">
+      <!-- This is the headcontainer. -->
+      <nav class="navbar navbar-default">
+	<div class="navbar-header">
+	  <a class="navbar-brand">Git2Web</a>
+	</div>
+	<!-- :TODO: Add a dropdown menu for selecting the different branches -->
+      </nav>
+      <!--This is the Left containern. -->
+      <div class="col-xs-12 col-md-6">
+	<div ng-repeat="repo in repos.jsondata" class="row"> <!-- iterating div -->	  
+	  <table class="table"> <!-- repo table -->
+	    <h1 class="page-header"><a href="#" ng-click="repos.displayNewRepo(repo)">{{ repo }}</a></h1>
+	    <tr ng-click="repos.branch=branch" ng-repeat="branch in repo">
+	      <h3>{{ branch }}</h3>
+	      <table ng-show="repos.branchSelected(branch)" class="table table-striped">
+		<thead>
+		  <th>Message</th>
+		  <th>Commit</th>
+		  <th>Author</th>
+		</thead>
+		<tbody>
+		  <tr ng-click="repos.displayNewCommit(hash)" ng-repeat="(hash, commit) in branch">
+		    <td>{{commit.message}}</td>
+		    <td><code>{{hash}}</code></td>
+		    <td>{{commit.author}}</td>
+		  </tr>
+		</tbody>
+	      </table> <!-- commit table -->
+	    </tr>
+	  </table> <!-- repo table -->
+	</div> <!-- iterating div -->
+      </div>
 
+      <!-- THis is the Right container. -->
+      <div ng-show="repo.selected(repo.hash)" class="col-xs-12 col-md-6"> <!-- -->
+	<!-- :TODO: Add a header here for the commit, with overall data like
+	     total amount of lines deleted or inserted, parent commit
+	     commit id, commit message, author & date??! -->
+	<!-- This is the commit metadata container -->
+	<div ng-repeat="meta in repo.commitMetadata" class="diff">
+	  <dl class="dl-horizontal">
+	    <dt><code>{{ meta.filename }}</code></dt>
+	    <dd><code>{{ meta.hash }}</code></dd>
+	  </dl>
+	</div>
+      </div> <!-- /right container -->
+
+    </div> <!-- /row -->
+~~~
 ** irc quotes
    <sandia> jonatanhal: varför vill den inte skriva ut texter... Slnger snart ut
    alla mina datorer och telefon från fönstret och går ut i bilen och

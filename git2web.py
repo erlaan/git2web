@@ -21,12 +21,15 @@ class git2web:
             return
 
         # set the repo-name as a key to an empty dictionary.
-        self.markup.update({name : {}})
+        self.markup.update({name : {'name' : name}})
 
         # iterate over each branch
         for branch in repo.listall_branches():
             self.markup[name].update(
-                { branch : {}}
+                {
+                    branch : {},
+                    'name' : branch
+                }
             )
 
             br = repo.lookup_branch(branch)
@@ -98,7 +101,7 @@ def main():
         # on firefox when loading it as text/javascript. Is this present
         # on other JSON files aswell??
         markup = git2web(repos)
-        output = json.dumps(markup.markup)
+        output = json.dumps("data: {markup}".format(markup=markup.markup))
         path = join(config['outputPath'], "data.json")
         
     if not exists(config['outputPath']):
