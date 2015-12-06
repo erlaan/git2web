@@ -10,6 +10,7 @@
   </head>  
   <body>
     <div class="container">
+      {% block body %}
       {% for repo in repos %}
       <div class="row"> <!-- loop here for each repo -->
 
@@ -58,5 +59,6 @@
       </div> <!-- /row -->
       {% endfor %}
     </div>
+    {% endblock %}
   </body>
 </html>

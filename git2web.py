@@ -6,7 +6,8 @@ from jinja2 import Environment, FileSystemLoader, TemplateNotFound
 from pygit2 import Repository
 
 
-class Parser:
+class git2web:
+    # shitty classname i know, sue me
     def __init__(self, repos):
         # set some initial values
         self.markup = {}
@@ -61,7 +62,8 @@ class Parser:
                 })
                     
 def main():
-    repos, config = {}, {}
+    repos = {}
+    config = {}
     markup = ""
 
     # read the config
@@ -76,23 +78,26 @@ def main():
             print('Unable to open repository {} in config. Wrong path?'.format(r['name']))
             return 1
         
-    # generate our model-objects here    
     if config['markup'] == 'html':
+        # :BROKEN: - This shit doesnt work for whatever reason.
+        # Right now, the following if-block only seems to muster up enough
+        # working code to spit out an unmodified version of jinja2template.html
+        # Which is more wierd than good.
         try:
             env = Environment(loader=FileSystemLoader(config['templatesDirectory']))
         except KeyError:
             print("Please define 'templateDirectory' to where you keep your template in config.json.")
             return 1
         # puh error checking done, lets get dirty
-        template = env.get_template(config['jinjaTemplate'])        
-        markup = Parser(repos)
-        output = template.render(repos=markup.markup)
+        template = env.get_template(config['jinjaTemplate'])
+        output = template.render(repos=git2web(repos).markup)
         path = join(config['outputPath'], 'index.html')
-        
-        # :TODO: call template.render() and save that shit
 
     if config['markup'] == 'json':
-        markup = Parser(repos)
+        # :HMM: the json spat out by this if-block gave some warnings
+        # on firefox when loading it as text/javascript. Is this present
+        # on other JSON files aswell??
+        markup = git2web(repos)
         output = json.dumps(markup.markup)
         path = join(config['outputPath'], "data.json")
         

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  ng-app="git2web">
+<html ng-app="git2web">
   <head>
 
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
@@ -10,76 +10,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" >
 
-    <title ng-controller="repoCtrl as repo">Git2Web</title>
+    <title>Git2Web</title>
   </head>
   <body>
-    <div ng-controller="repoCtrl as repo" class="container-fluid">
+    <div ng-controller="repoCtrl as repos" class="container-fluid">
+      <!-- This is the headcontainer. -->
       <nav class="navbar navbar-default">
-	<!-- This is the headcontainer. -->
 	<div class="navbar-header">
 	  <a class="navbar-brand">Git2Web</a>
 	</div>
-
-	<form class="navbar-form navbar-right" role="search">
-          <div class="form-group" id="pright">
-            <input type="text" ng-model="repo.repository" class="form-control" placeholder="Search">
-         </div>
-      	</form>
 	<!-- :TODO: Add a dropdown menu for selecting the different branches -->
       </nav>
-
-      <div class="row" ng-hide="repo.selected(repo.repository)">
-
-	
-	
-	<button type="button">Tryck inte på mig! </button>
-
+      <!--This is the Left containern. -->
+      <div class="col-xs-12 col-md-6">
+	<div ng-repeat="repo in repos.jsondata" class="row"> <!-- iterating div -->	  
+	  <table class="table"> <!-- repo table -->
+	    <h1 class="page-header"><a href="#" ng-click="repos.displayNewRepo(repo)">{{ repo }}</a></h1>
+	    <tr ng-click="repos.branch=branch" ng-repeat="branch in repo">
+	      <h3>{{ branch }}</h3>
+	      <table ng-show="repos.branchSelected(branch)" class="table table-striped">
+		<thead>
+		  <th>Message</th>
+		  <th>Commit</th>
+		  <th>Author</th>
+		</thead>
+		<tbody>
+		  <tr ng-click="repos.displayNewCommit(hash)" ng-repeat="(hash, commit) in branch">
+		    <div>
+		      <td>{{commit.message}}</td>
+		      <td><code>{{hash}}</code></td>
+		      <td>{{commit.author}}</td>
+		    </div>
+		  </tr>
+		</tbody>
+	      </table> <!-- commit table -->
+	    </tr>
+	  </table> <!-- repo table -->
+	</div> <!-- iterating div -->
       </div>
 
-      <div class="row" ng-show="repo.selected(repo.repository)">
-
-	<!--This is the Left containern. -->
-	<div class="col-xs-12 col-md-6">
-	  <table class="table table-striped">
-	    <thead>
-	      <th>Message</th>
-	      <th>Commit</th>
-	      <th>Author</th>
-	    </thead>
-	    <tbody>
-	      <tr ng-click="repo.displayNewCommit(hash)" ng-repeat="(hash, commit) in repo.commits">
-		<div>
-		  <td>{{commit.message}}</td>
-		  <td><code>{{hash}}</code></td>
-		  <td>{{commit.author}}</td>
-		</div>
-	      </tr>
-	    </tbody>
-	  </table>
+      <!-- THis is the Right container. -->
+      <div  class="col-xs-12 col-md-6"> <!-- ng-show="repo.selected(repo.hash)" -->
+	<!-- :TODO: Add a header here for the commit, with overall data like
+	     total amount of lines deleted or inserted, parent commit
+	     commit id, commit message, author & date??! -->
+	<!-- This is the commit metadata container -->
+	<div ng-repeat="meta in repo.commitMetadata" class="diff">
+	  <dl class="dl-horizontal">
+	    <dt><code>{{ meta.filename }}</code></dt>
+	    <dd>
+	      <span class="label label-danger">{{ "-" + meta.deletions }}</span>
+	      <span class="label label-success">{{ "+" +  meta.insertions }}</span>
+	    </dd>
+	  </dl>
+	  <div class="clearfix"></div>
+	  <pre>{{ meta.patch }}</pre>
 	  <hr>
 	</div>
+      </div> <!-- /right container -->
 
-	<!-- THis is the Right container. -->
-	<div ng-show="repo.selected(repo.hash)" class="col-xs-12 col-md-6">
-	  <!-- :TODO: Add a header here for the commit, with overall data like
-	       total amount of lines deleted or inserted, parent commit
-	       commit id, commit message, author & date??! -->
-	  <!-- This is the commit metadata container -->
-	  <div ng-repeat="meta in repo.commitMetadata" class="diff">
-	    <dl class="dl-horizontal">
-	      <dt><code>{{ meta.filename }}</code></dt>
-	      <dd>
-		<span class="label label-danger">{{ "-" + meta.deletions }}</span>
-		<span class="label label-success">{{ "+" +  meta.insertions }}</span>
-	      </dd>
-	    </dl>
-	    <div class="clearfix"></div>
-	    <pre>{{ meta.patch }}</pre>
-	    <hr>
-	  </div>
-	</div> <!-- /right container -->
-
-      </div> <!-- /row -->
-    </div>
-  </body>
+    </div> <!-- /row -->
+</body>
 </html>
