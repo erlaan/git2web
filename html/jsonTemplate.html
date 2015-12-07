@@ -12,19 +12,78 @@
   <body ng-controller="repoController as repos">
     <div ng-init="repos.init()" class="container-liquid"> <!-- root div -->
       <noscript><pre class="lead text-center">Don't you trust us? :)</pre></noscript>
-      <nav class="navbar navbar-default">
-	<div class="navbar-header">
-	  <a class="navbar-brand">Git2Web</a>
-	</div>
-	<!-- :TODO: drop down menu for selecting repo / branch -->
-      </nav>
       <div class="left col-xs-12 col-md-6"> <!-- left -->
-	<div ng-repeat="(repo, meta) in data" class="row">
-	  <h1 class="page-header">{{ repo }}</h1>
-	</div>
+	<div ng-repeat="(repo, meta) in data" class="row"> <!-- Repo row -->
+	  <h1 class="page-header">
+	    <a href="#">{{ repo }}</a>
+	    <button ng-click="repos.toggleShowBranches()" class="btn pull-right">
+	      BRANCHES
+	      <span class="caret"></span>
+	    </button>
+	  </h1>
+	  <table ng-show="repos.showBranches" class="well slide table"> <!-- Branch Table -->
+	    <thead>
+	      <tr>
+		<th>Branch</th>
+		<th>Commit</th>
+		<th>Updated</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr ng-click="repos.branch = branch" ng-repeat="branch in meta.branches">
+		<td>{{ meta[branch].name }}</td>
+		<td><code>{{ meta[branch].latestHash }}</code></td>
+		<td class="text-muted">{{ meta[branch].latestDate | unixToDatetime }}</td>
+		<td><button class="btn btn-info btn-xs">SHOW</button></td>
+	      </tr>
+	    </tbody>
+	  </table> <!-- Branch table -->
+	  <div class="panel panel-default">
+	    <div class="panel-heading">
+	      <h3 class="panel-title">Commits in <strong>{{repos.branch}}</strong></h3>
+	    </div>
+	    <div class="panel-body">
+	      <table class="table table-striped">
+		<tr id="{{commit.hash}}" ng-repeat="commit in meta[repos.branch].commits | orderBy: commit.time">
+		  <td><code>{{commit.hash | sevenLimit}}</code></td>
+		  <td>{{commit.message}}</td>
+		  <td><button ng-click="repos.commit = commit" class="btn btn-info btn-xs">INSPECT</button></td>
+		</tr>
+	      </table>
+	    </div>
+	  </div> <!-- commits -->
+	</div> <!-- Repo row -->
       </div> <!-- left -->
-
-
+      <div class="right col-xs-12 col-md-6"> <!-- right -->
+	<div ng-show="repos.commit" class="row"> <!-- View row -->
+	  <div class="page-header">
+	    <h2>{{ repos.commit.message }}</h2>
+	  </div>
+	  <dl class="dl-horizontal">
+	    <dt>HASH</dt> <dd><code>{{ repos.commit.hash }}</code></dd>
+	    <dt>DATE</dt> <dd>{{ repos.commit.time | unixToDatetime }}</dd>
+	    <dt>AUTHOR</dt> <dd>{{ repos.commit.author }}</dd>
+	  </dl>
+	  <ul class="list-unstyled">
+	    <li><strong>PARENTS</strong></li>
+	    <li ng-repeat="parent in repos.commit.parents"><code><a href="#{{parent}}">{{ parent }}</a></code></li>
+	  </ul>
+	  <table class="table">
+	    <thead>
+	      <tr>
+		<th>FILENAME</th>
+		<th>HASH</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr ng-repeat="file in repos.commit.affected">
+		<td>{{ file.filename }}</td>
+		<td><code>{{ file.hash }}</code></td>
+	      </tr>
+	    </tbody>
+	  </table>
+	</div> <!-- View row -->
+      </div>
     </div> <!-- root div -->
 
 </body>

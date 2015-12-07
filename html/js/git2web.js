@@ -1,11 +1,38 @@
 var git2web = angular.module('git2web', []);
 
+// much like github, sometimes we want to limit the hash
+// lenght, thus this filter.
+git2web.filter('sevenLimit', function() {
+    return function(input) {
+	input = input || '';
+	// we don't want to shrink a string
+	// that's shorter than our goal
+	if(input.length < 7) {
+	    return input
+	}
+	
+	var out = input.slice(0,7);
+	return out;
+    }
+});
+
+// very basic stuff for filtering the unix date
+// into something more readable
+git2web.filter('unixToDatetime', function() {
+    return function(input) {
+	input = input || '';
+	var out = new Date(input * 1000).toLocaleDateString();
+	return out; 
+    }
+});
+
 git2web.controller('repoController', ['$scope', '$http', function($scope, $http) {
     this.hash = "";
     this.commit = null;
     this.metadata = null;
     this.branch = "master";
     this.repository = "";
+    this.showBranches = false;
    
     this.init = function() {
 	$http.get('/config.json').then(function(data) {
@@ -15,39 +42,20 @@ git2web.controller('repoController', ['$scope', '$http', function($scope, $http)
 	    $scope.data = angular.fromJson(data.data);
 	}, null)
     };
-	
-    // helperfunction for checking if a branch is selected
-    this.selectedBranch = function(parameter) {
-	if (parameter == this.branch) {
-	    return true;
-	}
-	return false;
-    };
-    
-    this.selectedRepo = function(parameter) {
-	if (parameter == this.repository) {
-	    return true;
-	}
-	return false;
-    };
 
+    this.toggleShowBranches = function() {
+	this.showBranches = !this.showBranches;
+    }
+	    
     this.selectedCommit = function(paramter) {
+	if (this.commit = "") {
+	    return false
+	}
 	if (parameter == this.commit) {
 	    return true;
 	}
 	return false
     }
 
-    this.displayNewRepo = function(repo) {
-	this.repository = repo;
-	// default to show the master-branch of a repository.
-	this.selectedBranch = "master";
-    };
-
-    this.displayNewCommit = function(hash) {
-	this.commit = this.commits[hash];
-	this.hash = hash;
-	this.commitMetadata = this.commit.affectedFiles;
-    };
 }]);
 

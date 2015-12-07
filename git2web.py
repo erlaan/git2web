@@ -22,18 +22,25 @@ class git2web:
 
         # set the repo-name as a key to an empty dictionary.
         self.markup.update({name : {'name' : name}})
+        self.markup[name].update({'branches' : repo.listall_branches()})
 
         # iterate over each branch
         for branch in repo.listall_branches():
-            self.markup[name].update(
-                {
-                    branch : {},
-                    'name' : branch
-                }
-            )
 
             br = repo.lookup_branch(branch)
             referenceLog = [reference for reference in br.log()]
+
+            self.markup[name].update(
+                {
+                    branch : {
+                        'name' : branch,
+                        'latestDate': repo.revparse_single(br.target.hex).commit_time,
+                        'latestHash': br.target.hex,
+                        'commits' : {}
+                    }
+                }
+            )
+
             
             # Watch out for bug-hell right about now
             # good luck debugging this spaghetti code.
@@ -43,8 +50,9 @@ class git2web:
                 oid = str(reference.oid_new)
                 commit = repo.revparse_single(oid)
                 parents = [str(parent.oid) for parent in commit.parents]
-                self.markup[name][branch].update(
+                self.markup[name][branch]['commits'].update(
                     { oid : {
+                        'hash'    : oid,
                         'affected': [],
                         'time'    : commit.commit_time, # unix time-format?
                         'parents' : parents,
@@ -55,8 +63,8 @@ class git2web:
                 )
 
                 for twig in commit.tree:
-                    self.markup[name][branch][oid]['affected'].append({
-                        'hex' : twig.hex,
+                    self.markup[name][branch]['commits'][oid]['affected'].append({
+                        'hash' : twig.hex,
                         'filename' : twig.name
                         # :STRETCH: Individual patches per file, Version 1.1?
                         #  Make it so that a file can have an individual
@@ -101,7 +109,7 @@ def main():
         # on firefox when loading it as text/javascript. Is this present
         # on other JSON files aswell??
         markup = git2web(repos)
-        output = json.dumps(markup.markup)
+        output = json.dumps(markup.markup, sort_keys=True, indent=4)
         path = join(config['outputPath'], "data.json")
         
     if not exists(config['outputPath']):
