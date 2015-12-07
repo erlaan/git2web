@@ -2,7 +2,18 @@
     "markup": "json",
     "templatesDirectory" :  "html",
     "jinjaTemplate" : "jinja2Template.html",
-    "outputPath" : "_markup/", 
-    "repos" : [ { "path": "./",
-		  "name": "git2web" }]
+    "jsonTemplate" : "jsonTemplate.html",
+    "outputPath" : "_markup/",
+    "assets" : [
+	"css/custom.css",
+	"css/bootstrap.css",
+	"js/git2web.js",
+	"js/angular.js"
+    ],
+    "repos" : [
+	{
+	    "path": "./",
+	    "name": "git2web"
+	}
+    ]
 }

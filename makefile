@@ -34,9 +34,11 @@ venvprepare:
 	$(VENV)/bin/pip install cffi # We need to explicitly install cffi first, since pygit2 depends on it
 	$(VENV)/bin/pip install -r requirements.txt
 
+## Remove the downloaded webstuff
 webclean:
 	rm -rf html/css/*
 	rm -rf html/js/$(ANGULARJS)
 
+## Nuke the venv
 venvclean:
 	rm -rf $(VENV)

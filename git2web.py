@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import sys, json, os
 
-from os.path import join, exists, getmtime
-from jinja2 import Environment, FileSystemLoader, TemplateNotFound
+from shutil import copyfile
+from os.path import join, exists
+from jinja2 import Environment, FileSystemLoader
 from pygit2 import Repository
-
 
 class git2web:
     # shitty classname i know, sue me
@@ -111,13 +111,33 @@ def main():
         markup = git2web(repos)
         output = json.dumps(markup.markup, sort_keys=True, indent=4)
         path = join(config['outputPath'], "data.json")
-        
+        # copy the jsonTemplate to the output-directory.
+        jsonTemplate = join(config['templatesDirectory'], config['jsonTemplate'])        
+        jsonTemplateOutput = join(config['outputPath'], "index.html")
+        copyfile(jsonTemplate, jsonTemplateOutput)
+        print("[i] Copied {} into {}".format(config['jsonTemplate'], config['outputPath']))
+
     if not exists(config['outputPath']):
         os.mkdir(config['outputPath'])
     with open(path, 'w') as fh:
         fh.write(output)
     print("[i] wrote markup into", path)
 
+    # copy all the things defined in config['assets']
+    # into config['outputPath']
+    for asset in config['assets']:
+        src = join(config['templatesDirectory'], asset)
+        dstFile = join(config['outputPath'], asset)
+        dstPath = dstFile[:dstFile.rfind("/")]
+        
+        if not exists(src):
+            print("[!] Unable to find", src) 
+            return 1
+        if not exists(dstPath):
+            os.mkdir(dstPath)
+        
+        copyfile(src, dstFile)
+        
     # smooth sailing, everything is fine!
     return 0
 
