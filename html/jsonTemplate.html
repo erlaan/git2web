@@ -16,9 +16,8 @@
 	<div ng-repeat="(repo, meta) in data" class="row"> <!-- Repo row -->
 	  <h1 class="page-header">
 	    <a href="#">{{ repo }}</a>
-	    <button ng-click="repos.toggleShowBranches()" class="btn pull-right">
+	    <button ng-click="repos.toggleShowBranches()" class="btn btn-info pull-right">
 	      BRANCHES
-	      <span class="caret"></span>
 	    </button>
 	  </h1>
 	  <table ng-show="repos.showBranches" class="well slide table"> <!-- Branch Table -->
@@ -27,6 +26,11 @@
 		<th>Branch</th>
 		<th>Commit</th>
 		<th>Updated</th>
+		<th>
+		  <button ng-click="repos.toggleShowBranches()" class="btn btn-danger btn-xs">
+		    CLOSE
+		  </button>
+		</th>
 	      </tr>
 	    </thead>
 	    <tbody>
@@ -55,9 +59,14 @@
 	</div> <!-- Repo row -->
       </div> <!-- left -->
       <div class="right col-xs-12 col-md-6"> <!-- right -->
+	<div class="row graph">
+	</div>
 	<div ng-show="repos.commit" class="row"> <!-- View row -->
 	  <div class="page-header">
-	    <h2>{{ repos.commit.message }}</h2>
+	    <h2>
+	      {{ repos.commit.message }}
+	      <button ng-click="repos.commit = ''" class="btn btn-danger btn-xs">CLOSE</button>
+	    </h2>
 	  </div>
 	  <dl class="dl-horizontal">
 	    <dt>HASH</dt> <dd><code>{{ repos.commit.hash }}</code></dd>
@@ -66,7 +75,7 @@
 	  </dl>
 	  <ul class="list-unstyled">
 	    <li><strong>PARENTS</strong></li>
-	    <li ng-repeat="parent in repos.commit.parents"><code><a href="#{{parent}}">{{ parent }}</a></code></li>
+	    <li ng-repeat="parent in repos.commit.parents"><a href="#{{parent}}"><code ng-click="repos.highlightCommit(parent)">{{ parent }}</code></a></li>
 	  </ul>
 	  <table class="table">
 	    <thead>

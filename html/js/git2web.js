@@ -33,7 +33,9 @@ git2web.controller('repoController', ['$scope', '$http', function($scope, $http)
     this.branch = "master";
     this.repository = "";
     this.showBranches = false;
-   
+    this.hideCommit = true;
+    this.highlightedParent = "";
+
     this.init = function() {
 	$http.get('/config.json').then(function(data) {
 	    $scope.config = angular.fromJson(data.data);
@@ -45,17 +47,27 @@ git2web.controller('repoController', ['$scope', '$http', function($scope, $http)
 
     this.toggleShowBranches = function() {
 	this.showBranches = !this.showBranches;
-    }
-	    
-    this.selectedCommit = function(paramter) {
-	if (this.commit = "") {
-	    return false
-	}
-	if (parameter == this.commit) {
-	    return true;
-	}
-	return false
-    }
+    };
 
+    this.toggleCommit = function() {
+	this.hideCommit = !this.hideCommit;
+    };
+
+    this.highlightCommit = function(hash) {
+	// start by removing the previously highlighted parent
+	if (this.highlightedParent != "") {
+	    var old = document.getElementById(this.highlightedParent);
+	    old.classList.remove("success");
+	}
+	// add the new class to the newly selected parent
+	var neu = document.getElementById(hash);
+	if (neu == null) {
+	    return;
+	}
+	neu.classList.add("success");
+	// finally just reassign our state
+	this.highlightedParent = hash;
+    }
+    
 }]);
 
