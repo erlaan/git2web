@@ -89,21 +89,6 @@ def main():
             print('Unable to open repository {} in config. Wrong path?'.format(r['name']))
             return 1
         
-    if config['markup'] == 'html':
-        # :BROKEN: - This shit doesnt work for whatever reason.
-        # Right now, the following if-block only seems to muster up enough
-        # working code to spit out an unmodified version of jinja2template.html
-        # Which is more wierd than good.
-        try:
-            env = Environment(loader=FileSystemLoader(config['templatesDirectory']))
-        except KeyError:
-            print("Please define 'templateDirectory' to where you keep your template in config.json.")
-            return 1
-        # puh error checking done, lets get dirty
-        template = env.get_template(config['jinjaTemplate'])
-        output = template.render(repos=git2web(repos).markup)
-        path = join(config['outputPath'], 'index.html')
-
     if config['markup'] == 'json':
         # :HMM: the json spat out by this if-block gave some warnings
         # on firefox when loading it as text/javascript. Is this present

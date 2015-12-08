@@ -1,8 +1,7 @@
 {
     "markup": "json",
     "templatesDirectory" :  "html",
-    "jinjaTemplate" : "jinja2Template.html",
-    "jsonTemplate" : "jsonTemplate.html",
+    "jsonTemplate" : "index.html",
     "outputPath" : "_markup/",
     "assets" : [
 	"css/custom.css",
