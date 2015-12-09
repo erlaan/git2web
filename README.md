@@ -54,3 +54,11 @@ $ venv/bin/python3 git2web.py
 
   If you do plan on using virtualenv, then make sure to run any and all .py-files
   via the virtual enviroment, like so: `$ venv/bin/python myPythonCode.py`
+
+## TODOS
+
++ Documentation of Python-code
+
++ Support for Jinja2 templating
+
++ Unittests
