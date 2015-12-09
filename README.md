@@ -2,56 +2,49 @@
 
 ## About:
 
-### Dependencies:
+**Git2Web** reads in information about a git-project and spits out
+JSON-formatted data for you to use however you like. We provide a
+basic, default Angular app that creates a website around the data.
 
+You can change various settings in config.json, like where your
+templates are located, where your assets are located and so on.
+Git2web will copy these files into the specified output folder
+(_markup) by default.
+
+Git2Web is in *early* stages of development, pull-requests & issues or
+general constructive feedback is welcomed with open arms.
+
+Because Git2Web is configured through config.json, you don't need to
+remember passing it any flag, you just run it.
+
+```
+$ # Preparing the environment
+$ make webprepare
+...
+
+$ # Preparing the virtualenv
+$ make venvprepare
+...
+
+$ # Running git2web
+$ venv/bin/python3 git2web.py
+```
+
+### Sytem Dependencies:
+  + libffi
   + libgit2
-  + jinja2* 
-  + pygit2*
 
-(can be installed into a virtualenv via `make venvprepare`)
+### Python Dependencies:
+  + pygit2
 
-## Developing:
+### Preparing:
 
   Start by running `make webprepare` & `make venvprepare` to set up your
   enviroment. These commands will fetch the required or agreed upon
   libraries that this project uses at the moment.
 
-### Contributing
-
-  Please follow these very basic guidelines when contributing code:
-
-  + Document expected function parameter types & any return-value type.
-
-	Example:
-
-	```python
-# ...
-# parameter x type: string
-# parameter y type: integer
-# parameter z type: list
-# return-type: str
-def foo(x, y, z):
-    return "bar"
-# ...
-	```
-
-  + Use `camelCase`, not `this_type_of_code`, even though python itself
-  does not adhear to any one particular style, camelCase is the prefered
-  style of this project.
-
-## Gotchas
-
-### UTF-8 all the way!
-  
-  **PROBLEM:**
-  Developing in python gets confusing sometimes when you stumble upon
-  a unicode-error, is it because some spooky character was left in your sourcecode
-  or what the fuck actually happened?
-
-  **SOLUTION:** 
-  Putting `# -*- coding: utf-8 -*-` in the beginning of your `.py`-file
-  will make sure that python itself is not confused over what encoding your
-  file actually uses.
+  Running `make webclean` & `make venvclean` will simply remove the files
+  created by their 'prepare'-counterpart.
 
 ### Virtualenv what?
 
