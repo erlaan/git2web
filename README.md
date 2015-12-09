@@ -30,7 +30,7 @@ $ # Running git2web
 $ venv/bin/python3 git2web.py
 ```
 
-### Sytem Dependencies:
+### System Dependencies:
   + libffi
   + libgit2
 
@@ -62,3 +62,5 @@ $ venv/bin/python3 git2web.py
 + Support for Jinja2 templating
 
 + Unittests
+
++ Sorting the commits based on date

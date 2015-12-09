@@ -48,7 +48,7 @@
 	    </div>
 	    <div class="panel-body">
 	      <table class="table table-striped">
-		<tr id="{{commit.hash}}" ng-repeat="commit in meta[repos.branch].commits | orderBy: commit.time">
+		<tr id="{{commit.hash}}" ng-repeat="commit in meta[repos.branch].commits">
 		  <td><code>{{commit.hash | sevenLimit}}</code></td>
 		  <td>{{commit.message}}</td>
 		  <td><button ng-click="repos.commit = commit" class="btn btn-info btn-xs">INSPECT</button></td>
