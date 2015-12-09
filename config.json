@@ -1,7 +1,7 @@
 {
     "markup": "json",
     "templatesDirectory" :  "html",
-    "jsonTemplate" : "index.html",
+    "jsonTemplate" : "template.html",
     "outputPath" : "_markup/",
     "assets" : [
 	"css/custom.css",

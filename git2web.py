@@ -97,7 +97,7 @@ def main():
         output = json.dumps(markup.markup, sort_keys=True, indent=4)
         path = join(config['outputPath'], "data.json")
         # copy the jsonTemplate to the output-directory.
-        jsonTemplate = join(config['templatesDirectory'], config['jsonTemplate'])        
+        jsonTemplate = join(config['templatesDirectory'], config['jsonTemplate'])
         jsonTemplateOutput = join(config['outputPath'], "index.html")
         copyfile(jsonTemplate, jsonTemplateOutput)
         print("[i] Copied {} into {}".format(config['jsonTemplate'], config['outputPath']))
